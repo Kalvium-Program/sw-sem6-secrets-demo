@@ -1,0 +1,18 @@
+services:
+  app:
+    image: node:22-bookworm-slim
+    working_dir: /app
+    command: ["node", "app.js"]
+    environment:
+      APP_MODE: practice
+      DEMO_TOKEN_FILE: /run/secrets/demo_token
+    volumes:
+      - ./app.js:/app/app.js:ro
+    secrets:
+      - demo_token
+  observer:
+    image: node:22-bookworm-slim
+    command: ["node", "-e", "setInterval(()=>{},60000)"]
+secrets:
+  demo_token:
+    file: ./secrets/demo_token.txt
